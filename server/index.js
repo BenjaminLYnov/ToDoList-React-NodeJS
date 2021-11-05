@@ -62,22 +62,25 @@ app.post('/api/GetTodo', (req, res) => {
                 priority: []
             }
 
-            // Get Data to send to client
-            for (let index = 0; index < result.length; index++) {
+            if (result != "") {
+                // Get Data to send to client
+                for (let index = 0; index < result.length; index++) {
 
-                dataToClient["id"].push(result[index].id);
-                dataToClient["memo"].push(result[index].memo);
-                dataToClient["priority"].push(result[index].priority);
+                    dataToClient["id"].push(result[index].id);
+                    dataToClient["memo"].push(result[index].memo);
+                    dataToClient["priority"].push(result[index].priority);
 
-                // Get date with good format 
+                    // Get date with good format 
 
-                const formatDate = (date) => {
-                    let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " à " + date.getUTCHours() + " h " + date.getUTCMinutes() + " min " + date.getUTCSeconds() + " s";
-                    return formatted_date;
+                    const formatDate = (date) => {
+                        let formatted_date = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear() + " à " + date.getUTCHours() + " h " + date.getUTCMinutes() + " min " + date.getUTCSeconds() + " s";
+                        return formatted_date;
+                    }
+                    result[index].dateAjout = formatDate(result[index].dateAjout);
+                    dataToClient["dateAjout"].push(result[index].dateAjout);
                 }
-                result[index].dateAjout = formatDate(result[index].dateAjout);
-                dataToClient["dateAjout"].push(result[index].dateAjout);
             }
+
             res.send(JSON.stringify(dataToClient));
         });
     });
